@@ -1,0 +1,1124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Najma Khonsa Tsabita — Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0c10;
+    --surface: rgba(255,255,255,0.04);
+    --surface2: rgba(255,255,255,0.08);
+    --border: rgba(255,255,255,0.10);
+    --accent: #b8a9ff;
+    --accent2: #ffc8a0;
+    --accent3: #a0ffd6;
+    --text: #f0ede8;
+    --muted: rgba(240,237,232,0.5);
+    --glass: rgba(255,255,255,0.06);
+    --glass-border: rgba(255,255,255,0.12);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* CUSTOM CURSOR */
+  .cursor {
+    position: fixed; width: 12px; height: 12px;
+    background: var(--accent); border-radius: 50%;
+    pointer-events: none; z-index: 9999;
+    transition: transform 0.15s ease, opacity 0.15s;
+    transform: translate(-50%, -50%);
+  }
+  .cursor-trail {
+    position: fixed; width: 32px; height: 32px;
+    border: 1px solid rgba(184,169,255,0.4);
+    border-radius: 50%; pointer-events: none;
+    z-index: 9998; transition: all 0.35s ease;
+    transform: translate(-50%, -50%);
+  }
+
+  /* BACKGROUND ORBS */
+  .bg-orb {
+    position: fixed; border-radius: 50%;
+    filter: blur(80px); opacity: 0.15;
+    pointer-events: none; z-index: 0;
+    animation: orbFloat 12s ease-in-out infinite;
+  }
+  .orb1 { width: 500px; height: 500px; background: #b8a9ff; top: -10%; left: -10%; animation-delay: 0s; }
+  .orb2 { width: 400px; height: 400px; background: #ffc8a0; top: 40%; right: -10%; animation-delay: -4s; }
+  .orb3 { width: 350px; height: 350px; background: #a0ffd6; bottom: -10%; left: 30%; animation-delay: -8s; }
+
+  @keyframes orbFloat {
+    0%, 100% { transform: translateY(0) scale(1); }
+    50% { transform: translateY(-40px) scale(1.05); }
+  }
+
+  /* NOISE GRAIN OVERLAY */
+  body::before {
+    content: ''; position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+    opacity: 0.4; pointer-events: none; z-index: 1;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 100; padding: 20px 48px;
+    display: flex; align-items: center; justify-content: space-between;
+    background: rgba(10,12,16,0.6);
+    backdrop-filter: blur(24px) saturate(1.4);
+    border-bottom: 1px solid var(--border);
+    transition: all 0.3s;
+  }
+  .nav-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem; font-weight: 600;
+    letter-spacing: 0.02em;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .nav-links { display: flex; gap: 8px; align-items: center; }
+  .nav-links a, .dropdown > a {
+    font-family: 'DM Sans', sans-serif; font-size: 0.82rem;
+    font-weight: 400; letter-spacing: 0.06em; text-transform: uppercase;
+    color: var(--muted); text-decoration: none; padding: 8px 16px;
+    border-radius: 40px; transition: all 0.25s;
+    position: relative;
+  }
+  .nav-links a:hover, .dropdown > a:hover { color: var(--text); background: var(--surface2); }
+
+  .dropdown { position: relative; }
+  .dropdown-menu {
+    position: absolute; top: calc(100% + 12px); left: 50%;
+    transform: translateX(-50%) translateY(-8px);
+    background: rgba(15,17,25,0.92); backdrop-filter: blur(24px);
+    border: 1px solid var(--glass-border); border-radius: 16px;
+    padding: 8px; min-width: 180px;
+    opacity: 0; pointer-events: none; transition: all 0.25s;
+    z-index: 200;
+  }
+  .dropdown:hover .dropdown-menu { opacity: 1; pointer-events: all; transform: translateX(-50%) translateY(0); }
+  .dropdown-menu a {
+    display: block; padding: 10px 16px; border-radius: 10px;
+    font-size: 0.8rem; white-space: nowrap;
+    text-transform: uppercase; letter-spacing: 0.05em;
+  }
+  .dropdown-menu a:hover { background: var(--surface2); color: var(--accent); }
+
+  /* SECTIONS */
+  section { position: relative; z-index: 2; }
+
+  /* HERO */
+  #home {
+    min-height: 100vh; display: flex; align-items: center;
+    padding: 120px 48px 80px;
+    gap: 64px;
+  }
+  .hero-left { flex: 1; }
+  .hero-tag {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--glass); border: 1px solid var(--glass-border);
+    backdrop-filter: blur(12px); border-radius: 40px;
+    padding: 6px 16px; font-size: 0.75rem;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 32px;
+    animation: fadeUp 0.8s ease both;
+  }
+  .hero-tag::before { content: '●'; font-size: 0.5rem; animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+  .hero-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(3rem, 6vw, 5.5rem);
+    font-weight: 300; line-height: 1.1;
+    letter-spacing: -0.01em;
+    animation: fadeUp 0.8s 0.1s ease both;
+  }
+  .hero-name em {
+    font-style: italic; font-weight: 300;
+    background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .hero-sub {
+    font-family: 'Space Mono', monospace; font-size: 0.78rem;
+    color: var(--muted); letter-spacing: 0.08em;
+    margin: 20px 0 32px; line-height: 1.8;
+    animation: fadeUp 0.8s 0.2s ease both;
+  }
+  .hero-desc {
+    font-size: 1rem; color: rgba(240,237,232,0.7);
+    max-width: 480px; line-height: 1.8; margin-bottom: 40px;
+    animation: fadeUp 0.8s 0.3s ease both;
+  }
+  .hero-cta {
+    display: flex; gap: 16px; flex-wrap: wrap;
+    animation: fadeUp 0.8s 0.4s ease both;
+  }
+  .btn-primary {
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    color: #0a0c10; padding: 14px 28px; border-radius: 50px;
+    font-family: 'DM Sans', sans-serif; font-size: 0.85rem;
+    font-weight: 500; text-decoration: none; letter-spacing: 0.04em;
+    transition: all 0.3s; box-shadow: 0 0 30px rgba(184,169,255,0.3);
+    border: none; cursor: none;
+  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 40px rgba(184,169,255,0.5); }
+  .btn-secondary {
+    background: var(--glass); border: 1px solid var(--glass-border);
+    backdrop-filter: blur(12px); color: var(--text);
+    padding: 14px 28px; border-radius: 50px;
+    font-family: 'DM Sans', sans-serif; font-size: 0.85rem;
+    text-decoration: none; letter-spacing: 0.04em;
+    transition: all 0.3s; cursor: none;
+  }
+  .btn-secondary:hover { background: var(--surface2); transform: translateY(-2px); }
+
+  .hero-right {
+    flex: 0 0 auto; display: flex; flex-direction: column;
+    align-items: center; gap: 24px;
+    animation: fadeUp 0.8s 0.5s ease both;
+  }
+  .photo-frame {
+    width: 280px; height: 360px; border-radius: 160px 160px 120px 120px;
+    overflow: hidden; position: relative;
+    border: 1px solid var(--glass-border);
+    box-shadow: 0 0 60px rgba(184,169,255,0.15), inset 0 0 60px rgba(0,0,0,0.3);
+  }
+  .photo-placeholder {
+    width: 100%; height: 100%;
+    background: linear-gradient(160deg, rgba(184,169,255,0.15) 0%, rgba(255,200,160,0.1) 50%, rgba(160,255,214,0.1) 100%);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center; gap: 12px;
+  }
+  .photo-placeholder .initials {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 5rem; font-weight: 300;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    line-height: 1;
+  }
+  .photo-placeholder .photo-note {
+    font-size: 0.7rem; color: var(--muted);
+    letter-spacing: 0.1em; text-transform: uppercase;
+    text-align: center; padding: 0 20px;
+  }
+  .photo-glow {
+    position: absolute; bottom: -20px; left: 50%;
+    transform: translateX(-50%);
+    width: 200px; height: 60px;
+    background: var(--accent); filter: blur(40px); opacity: 0.3;
+  }
+
+  .stats-row {
+    display: flex; gap: 20px; flex-wrap: wrap; justify-content: center;
+  }
+  .stat-card {
+    background: var(--glass); border: 1px solid var(--glass-border);
+    backdrop-filter: blur(16px); border-radius: 16px;
+    padding: 16px 20px; text-align: center; min-width: 90px;
+  }
+  .stat-num {
+    font-family: 'Cormorant Garamond', serif; font-size: 1.8rem;
+    font-weight: 600; color: var(--accent); line-height: 1;
+  }
+  .stat-label { font-size: 0.65rem; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; margin-top: 4px; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* BIODATA / ABOUT STRIP */
+  .biodata-strip {
+    padding: 48px;
+    background: var(--glass);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    backdrop-filter: blur(12px);
+  }
+  .biodata-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 24px; }
+  .bio-item { }
+  .bio-key {
+    font-family: 'Space Mono', monospace; font-size: 0.65rem;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 6px;
+  }
+  .bio-val { font-size: 0.9rem; color: var(--text); line-height: 1.5; }
+
+  /* SECTION TITLE */
+  .section-wrap { padding: 100px 48px; }
+  .section-label {
+    font-family: 'Space Mono', monospace; font-size: 0.68rem;
+    letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 12px; display: flex;
+    align-items: center; gap: 12px;
+  }
+  .section-label::before { content: ''; display: block; width: 32px; height: 1px; background: var(--accent); }
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 4vw, 3.2rem);
+    font-weight: 300; line-height: 1.2; margin-bottom: 48px;
+  }
+  .section-title em { font-style: italic; color: var(--accent); }
+
+  /* EXPERIENCE TIMELINE */
+  .timeline { position: relative; padding-left: 32px; }
+  .timeline::before {
+    content: ''; position: absolute; left: 0; top: 0; bottom: 0;
+    width: 1px; background: linear-gradient(to bottom, var(--accent), transparent);
+  }
+  .timeline-item {
+    position: relative; margin-bottom: 40px;
+    background: var(--glass); border: 1px solid var(--glass-border);
+    backdrop-filter: blur(16px); border-radius: 20px;
+    padding: 28px 32px; transition: all 0.3s;
+  }
+  .timeline-item::before {
+    content: ''; position: absolute; left: -40px; top: 32px;
+    width: 10px; height: 10px; border-radius: 50%;
+    background: var(--accent); box-shadow: 0 0 12px var(--accent);
+  }
+  .timeline-item:hover { background: var(--surface2); transform: translateX(4px); }
+  .tl-header { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
+  .tl-title { font-size: 1rem; font-weight: 500; color: var(--text); }
+  .tl-date {
+    font-family: 'Space Mono', monospace; font-size: 0.7rem;
+    color: var(--accent); letter-spacing: 0.06em;
+    background: rgba(184,169,255,0.1); padding: 4px 12px; border-radius: 20px;
+    border: 1px solid rgba(184,169,255,0.2);
+  }
+  .tl-company { font-size: 0.82rem; color: var(--accent2); margin-bottom: 12px; font-weight: 400; }
+  .tl-desc { font-size: 0.85rem; color: var(--muted); line-height: 1.7; }
+  .tl-desc li { margin-left: 16px; margin-bottom: 4px; }
+
+  /* SKILLS GRID */
+  .skills-section { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; }
+  .skill-card {
+    background: var(--glass); border: 1px solid var(--glass-border);
+    backdrop-filter: blur(16px); border-radius: 20px; padding: 28px;
+    transition: all 0.3s;
+  }
+  .skill-card:hover { background: var(--surface2); transform: translateY(-4px); }
+  .skill-card-title {
+    font-family: 'Space Mono', monospace; font-size: 0.72rem;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--accent2); margin-bottom: 16px;
+  }
+  .skill-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+  .skill-tag {
+    background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 20px; padding: 5px 12px;
+    font-size: 0.78rem; color: var(--text);
+    transition: all 0.2s;
+  }
+  .skill-tag:hover { background: rgba(184,169,255,0.15); border-color: var(--accent); color: var(--accent); }
+
+  /* CERTIFICATIONS */
+  .cert-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; }
+  .cert-card {
+    background: var(--glass); border: 1px solid var(--glass-border);
+    backdrop-filter: blur(16px); border-radius: 20px;
+    padding: 28px; transition: all 0.3s; position: relative; overflow: hidden;
+  }
+  .cert-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+  }
+  .cert-card:hover { transform: translateY(-4px); background: var(--surface2); }
+  .cert-badge {
+    width: 44px; height: 44px; border-radius: 12px; margin-bottom: 16px;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.2rem;
+  }
+  .cert-name { font-size: 0.95rem; font-weight: 500; margin-bottom: 6px; }
+  .cert-issuer { font-size: 0.78rem; color: var(--muted); }
+  .cert-year { font-family: 'Space Mono', monospace; font-size: 0.7rem; color: var(--accent); margin-top: 12px; }
+
+  /* PROJECTS */
+  #projects { padding: 100px 48px; }
+  .project-tabs {
+    display: flex; gap: 8px; margin-bottom: 40px; flex-wrap: wrap;
+  }
+  .tab-btn {
+    background: var(--glass); border: 1px solid var(--glass-border);
+    backdrop-filter: blur(12px); border-radius: 40px;
+    padding: 10px 24px; font-family: 'DM Sans', sans-serif;
+    font-size: 0.82rem; color: var(--muted); cursor: none;
+    transition: all 0.25s; letter-spacing: 0.04em;
+  }
+  .tab-btn.active {
+    background: linear-gradient(135deg, rgba(184,169,255,0.2), rgba(255,200,160,0.1));
+    border-color: var(--accent); color: var(--accent);
+  }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 24px; }
+  .project-card {
+    background: var(--glass); border: 1px solid var(--glass-border);
+    backdrop-filter: blur(16px); border-radius: 20px;
+    padding: 28px; transition: all 0.3s; position: relative; overflow: hidden;
+  }
+  .project-card::after {
+    content: ''; position: absolute; inset: 0; border-radius: 20px;
+    background: linear-gradient(135deg, rgba(184,169,255,0.05), transparent);
+    opacity: 0; transition: opacity 0.3s;
+  }
+  .project-card:hover { transform: translateY(-6px); border-color: rgba(184,169,255,0.3); }
+  .project-card:hover::after { opacity: 1; }
+  .project-icon { font-size: 2rem; margin-bottom: 16px; }
+  .project-name { font-size: 1rem; font-weight: 500; margin-bottom: 8px; }
+  .project-desc { font-size: 0.83rem; color: var(--muted); line-height: 1.7; margin-bottom: 16px; }
+  .project-tech { display: flex; flex-wrap: wrap; gap: 6px; }
+  .tech-badge {
+    background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 6px; padding: 3px 10px;
+    font-family: 'Space Mono', monospace; font-size: 0.65rem;
+    color: var(--accent3); letter-spacing: 0.04em;
+  }
+
+  /* GALLERY */
+  #gallery { padding: 100px 48px; }
+  .gallery-note {
+    background: var(--glass); border: 1px solid var(--glass-border);
+    backdrop-filter: blur(16px); border-radius: 20px;
+    padding: 48px; text-align: center;
+  }
+  .gallery-note p { font-size: 0.9rem; color: var(--muted); line-height: 1.8; }
+  .gallery-placeholder-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 16px; margin-top: 32px;
+  }
+  .gallery-ph {
+    aspect-ratio: 1; border-radius: 16px;
+    background: linear-gradient(135deg, rgba(184,169,255,0.08), rgba(255,200,160,0.05));
+    border: 1px solid var(--glass-border);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 8px; font-size: 2rem;
+    transition: all 0.3s;
+  }
+  .gallery-ph:hover { background: rgba(184,169,255,0.12); transform: scale(1.02); }
+  .gallery-ph span { font-size: 0.72rem; color: var(--muted); font-family: 'Space Mono', monospace; letter-spacing: 0.06em; }
+
+  /* CONTACT */
+  #contact { padding: 100px 48px; }
+  .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; }
+  .contact-info h3 {
+    font-family: 'Cormorant Garamond', serif; font-size: 2rem;
+    font-weight: 300; margin-bottom: 24px; line-height: 1.3;
+  }
+  .contact-info h3 em { font-style: italic; color: var(--accent); }
+  .contact-list { display: flex; flex-direction: column; gap: 16px; }
+  .contact-item {
+    display: flex; align-items: center; gap: 16px;
+    background: var(--glass); border: 1px solid var(--glass-border);
+    backdrop-filter: blur(12px); border-radius: 14px;
+    padding: 16px 20px; transition: all 0.25s;
+    text-decoration: none; color: var(--text);
+  }
+  .contact-item:hover { background: var(--surface2); transform: translateX(4px); }
+  .contact-icon { font-size: 1.2rem; width: 36px; text-align: center; }
+  .contact-label { font-size: 0.7rem; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; }
+  .contact-val { font-size: 0.88rem; margin-top: 2px; }
+
+  .contact-form-card {
+    background: var(--glass); border: 1px solid var(--glass-border);
+    backdrop-filter: blur(16px); border-radius: 24px; padding: 36px;
+  }
+  .contact-form-card h4 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.3rem; margin-bottom: 24px; font-weight: 400;
+  }
+  .form-group { margin-bottom: 16px; }
+  .form-group label {
+    display: block; font-size: 0.72rem; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--accent); margin-bottom: 8px;
+    font-family: 'Space Mono', monospace;
+  }
+  .form-group input, .form-group textarea {
+    width: 100%; background: rgba(255,255,255,0.04);
+    border: 1px solid var(--border); border-radius: 12px;
+    padding: 12px 16px; color: var(--text);
+    font-family: 'DM Sans', sans-serif; font-size: 0.88rem;
+    outline: none; transition: all 0.25s; resize: none;
+  }
+  .form-group input:focus, .form-group textarea:focus {
+    border-color: var(--accent); background: rgba(184,169,255,0.05);
+    box-shadow: 0 0 0 3px rgba(184,169,255,0.1);
+  }
+  .form-group textarea { height: 100px; }
+  .btn-submit {
+    width: 100%; background: linear-gradient(135deg, var(--accent), var(--accent2));
+    color: #0a0c10; border: none; padding: 14px;
+    border-radius: 12px; font-family: 'DM Sans', sans-serif;
+    font-size: 0.88rem; font-weight: 500; cursor: none;
+    letter-spacing: 0.04em; transition: all 0.3s;
+    box-shadow: 0 4px 24px rgba(184,169,255,0.3);
+  }
+  .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(184,169,255,0.5); }
+
+  /* EDUCATION */
+  .edu-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+  .edu-card {
+    background: var(--glass); border: 1px solid var(--glass-border);
+    backdrop-filter: blur(16px); border-radius: 20px; padding: 28px;
+    transition: all 0.3s; position: relative; overflow: hidden;
+  }
+  .edu-card:hover { transform: translateY(-4px); }
+  .edu-year {
+    font-family: 'Space Mono', monospace; font-size: 0.68rem;
+    color: var(--accent); letter-spacing: 0.08em; margin-bottom: 10px;
+  }
+  .edu-institution { font-size: 1rem; font-weight: 500; margin-bottom: 4px; }
+  .edu-major { font-size: 0.85rem; color: var(--muted); margin-bottom: 12px; }
+  .gpa-badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: linear-gradient(135deg, rgba(160,255,214,0.15), rgba(184,169,255,0.1));
+    border: 1px solid rgba(160,255,214,0.3); border-radius: 20px;
+    padding: 4px 14px; font-family: 'Space Mono', monospace;
+    font-size: 0.72rem; color: var(--accent3);
+  }
+
+  /* ORGANIZATION */
+  .org-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
+  .org-card {
+    background: var(--glass); border: 1px solid var(--glass-border);
+    backdrop-filter: blur(16px); border-radius: 20px; padding: 24px;
+    transition: all 0.3s;
+  }
+  .org-card:hover { transform: translateY(-3px); background: var(--surface2); }
+  .org-role {
+    font-family: 'Space Mono', monospace; font-size: 0.65rem;
+    color: var(--accent2); letter-spacing: 0.08em; text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .org-name { font-size: 0.92rem; font-weight: 500; margin-bottom: 8px; }
+  .org-period { font-size: 0.75rem; color: var(--muted); }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--border); padding: 40px 48px;
+    display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 16px; z-index: 2; position: relative;
+    background: rgba(10,12,16,0.5); backdrop-filter: blur(12px);
+  }
+  .footer-logo { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; }
+  .footer-logo em { font-style: italic; color: var(--accent); }
+  .footer-copy { font-size: 0.75rem; color: var(--muted); }
+
+  /* SCROLL REVEAL */
+  .reveal { opacity: 0; transform: translateY(30px); transition: all 0.7s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    nav { padding: 16px 24px; }
+    #home { flex-direction: column; padding: 100px 24px 60px; gap: 40px; }
+    .hero-right { order: -1; }
+    .section-wrap, #projects, #gallery, #contact { padding: 60px 24px; }
+    .contact-grid { grid-template-columns: 1fr; }
+    footer { padding: 32px 24px; }
+    .biodata-strip { padding: 32px 24px; }
+    .nav-links { display: none; }
+    .mobile-menu-toggle {
+      display: flex; flex-direction: column; gap: 5px; cursor: none;
+      background: none; border: none; padding: 8px;
+    }
+    .mobile-menu-toggle span {
+      display: block; width: 24px; height: 1px; background: var(--text);
+    }
+  }
+  @media (min-width: 769px) { .mobile-menu-toggle { display: none; } }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-trail" id="cursorTrail"></div>
+
+<div class="bg-orb orb1"></div>
+<div class="bg-orb orb2"></div>
+<div class="bg-orb orb3"></div>
+
+<!-- NAV -->
+<nav id="navbar">
+  <div class="nav-logo">NKT</div>
+  <div class="nav-links">
+    <a href="#home">Home</a>
+    <div class="dropdown">
+      <a href="#projects">Projects ▾</a>
+      <div class="dropdown-menu">
+        <a href="#projects" onclick="switchTab('team')">Project Team</a>
+        <a href="#projects" onclick="switchTab('individual')">Project Individual</a>
+      </div>
+    </div>
+    <a href="#gallery">Gallery</a>
+    <a href="#contact">Contact</a>
+  </div>
+  <button class="mobile-menu-toggle" onclick="toggleMobileMenu()">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- HERO -->
+<section id="home">
+  <div class="hero-left">
+    <div class="hero-tag">Available for Opportunities</div>
+    <h1 class="hero-name">
+      Najma<br><em>Khonsa Tsabita</em>
+    </h1>
+    <div class="hero-sub">
+      Information Systems · Universitas Bakrie · GPA 3.85/4.00<br>
+      South Tangerang, Indonesia
+    </div>
+    <p class="hero-desc">
+      Information Systems undergraduate with practical experience in Data Visualization,
+      UI/UX Design, System Analysis, and Desktop App Development. Passionate about
+      bridging technology and business strategy.
+    </p>
+    <div class="hero-cta">
+      <a href="#contact" class="btn-primary">Get in Touch</a>
+      <a href="#projects" class="btn-secondary">View Projects</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="photo-frame">
+      <div class="photo-placeholder">
+        <div class="initials">NKT</div>
+        <div class="photo-note">Najma Khonsa Tsabita</div>
+      </div>
+      <div class="photo-glow"></div>
+    </div>
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="stat-num">3.85</div>
+        <div class="stat-label">GPA</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">5+</div>
+        <div class="stat-label">Experience</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">2</div>
+        <div class="stat-label">Certs BNSP</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BIODATA STRIP -->
+<div class="biodata-strip reveal">
+  <div class="biodata-grid">
+    <div class="bio-item">
+      <div class="bio-key">Full Name</div>
+      <div class="bio-val">Najma Khonsa Tsabita</div>
+    </div>
+    <div class="bio-item">
+      <div class="bio-key">NIM</div>
+      <div class="bio-val">1232002090</div>
+    </div>
+    <div class="bio-item">
+      <div class="bio-key">Date of Birth</div>
+      <div class="bio-val">Kuningan, 20 September 2004</div>
+    </div>
+    <div class="bio-item">
+      <div class="bio-key">Program</div>
+      <div class="bio-val">S1 — Sistem Informasi</div>
+    </div>
+    <div class="bio-item">
+      <div class="bio-key">Faculty</div>
+      <div class="bio-val">Teknik dan Ilmu Komputer</div>
+    </div>
+    <div class="bio-item">
+      <div class="bio-key">Semester</div>
+      <div class="bio-val">Semester 6 · Angkatan 2023</div>
+    </div>
+    <div class="bio-item">
+      <div class="bio-key">Email</div>
+      <div class="bio-val">najmakhonsa@gmail.com</div>
+    </div>
+    <div class="bio-item">
+      <div class="bio-key">Phone</div>
+      <div class="bio-val">+62 895 3794 16677</div>
+    </div>
+  </div>
+</div>
+
+<!-- EDUCATION -->
+<section class="section-wrap reveal">
+  <div class="section-label">Education</div>
+  <h2 class="section-title">Academic <em>Background</em></h2>
+  <div class="edu-grid">
+    <div class="edu-card">
+      <div class="edu-year">2023 — Present</div>
+      <div class="edu-institution">Universitas Bakrie</div>
+      <div class="edu-major">Undergraduate · Information Systems</div>
+      <div class="gpa-badge">★ GPA 3.85 / 4.00</div>
+      <div style="margin-top:12px; font-size:0.82rem; color:var(--muted); line-height:1.7;">
+        Programming · Database Management · Business Process · System Design · Data Visualization
+      </div>
+    </div>
+    <div class="edu-card">
+      <div class="edu-year">2020 — 2023</div>
+      <div class="edu-institution">SMKN 1 Gunungsindur</div>
+      <div class="edu-major">Vocational · Multimedia</div>
+      <div style="margin-top:12px; font-size:0.82rem; color:var(--muted); line-height:1.7;">
+        Graphic Design Fundamentals · Color Theory · Layout Design · Typography · Digital Illustration
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section class="section-wrap reveal" style="padding-top:0;">
+  <div class="section-label">Experience</div>
+  <h2 class="section-title">Work <em>Experience</em></h2>
+  <div class="timeline">
+    <div class="timeline-item">
+      <div class="tl-header">
+        <div class="tl-title">Data Administration Intern</div>
+        <div class="tl-date">Feb 2026 — Present</div>
+      </div>
+      <div class="tl-company">Direktorat Penjaminan Mutu, Universitas Bakrie</div>
+      <ul class="tl-desc">
+        <li>Administrative activities for quality assurance document management (Manual Standard, E-Monitoring & Evaluation, Management Risk)</li>
+        <li>Supported integration of quality documents into institutional systems, edited 20+ Manual Standards</li>
+      </ul>
+    </div>
+    <div class="timeline-item">
+      <div class="tl-header">
+        <div class="tl-title">Staff Digital Marketing</div>
+        <div class="tl-date">Aug 2024 — May 2025</div>
+      </div>
+      <div class="tl-company">PT. Arfadia Digital Indonesia</div>
+      <ul class="tl-desc">
+        <li>SEO article optimization and publication workflows</li>
+        <li>Edited and improved 100+ articles for SEO quality and readability</li>
+      </ul>
+    </div>
+    <div class="timeline-item">
+      <div class="tl-header">
+        <div class="tl-title">Lab Assistant — Pengantar Teknologi Informasi</div>
+        <div class="tl-date">Sep 2024 — Dec 2024</div>
+      </div>
+      <div class="tl-company">Universitas Bakrie</div>
+      <ul class="tl-desc">
+        <li>Assisted 43 students with Microsoft Office, Tableau, GitHub, Mendeley, and AIRPM</li>
+        <li>Developed teaching, patience, and communication skills through hands-on guidance</li>
+      </ul>
+    </div>
+    <div class="timeline-item">
+      <div class="tl-header">
+        <div class="tl-title">Operator Kementrian UMKM — Olah Sismennas</div>
+        <div class="tl-date">April 2024</div>
+      </div>
+      <div class="tl-company">Lemnashan</div>
+      <ul class="tl-desc">
+        <li>Created press releases, nodis, notulen, and Program Kegiatan Terpadu (PKT)</li>
+        <li>Responded to RIOS and prepared annual work recommendations and inter-ministerial inputs</li>
+        <li>Managed all tasks with high speed and attention to detail under simulation pressure</li>
+      </ul>
+    </div>
+    <div class="timeline-item">
+      <div class="tl-header">
+        <div class="tl-title">Digital Marketing Intern</div>
+        <div class="tl-date">May 2022 — Aug 2022</div>
+      </div>
+      <div class="tl-company">Positive Republic</div>
+      <ul class="tl-desc">
+        <li>Published 1000+ articles for SEO performance, improving online reach</li>
+        <li>Learned keyword research, content structuring, and digital publication techniques</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section class="section-wrap reveal" style="padding-top:0;">
+  <div class="section-label">Skills</div>
+  <h2 class="section-title">Technical <em>Expertise</em></h2>
+  <div class="skills-section">
+    <div class="skill-card">
+      <div class="skill-card-title">Hard Skills</div>
+      <div class="skill-tags">
+        <span class="skill-tag">UI/UX Design</span>
+        <span class="skill-tag">Graphic Design</span>
+        <span class="skill-tag">Data Visualization</span>
+        <span class="skill-tag">Business Intelligence</span>
+        <span class="skill-tag">BPMN</span>
+        <span class="skill-tag">Database Design</span>
+        <span class="skill-tag">System Analysis (UML)</span>
+        <span class="skill-tag">GIS</span>
+        <span class="skill-tag">Desktop Development</span>
+        <span class="skill-tag">VB.Net</span>
+        <span class="skill-tag">MySQL</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-card-title">Tools & Software</div>
+      <div class="skill-tags">
+        <span class="skill-tag">Figma</span>
+        <span class="skill-tag">Power BI</span>
+        <span class="skill-tag">Tableau</span>
+        <span class="skill-tag">QGIS</span>
+        <span class="skill-tag">Bizagi</span>
+        <span class="skill-tag">CorelDraw</span>
+        <span class="skill-tag">XAMPP</span>
+        <span class="skill-tag">Visual Studio</span>
+        <span class="skill-tag">VS Code</span>
+        <span class="skill-tag">NetBeans</span>
+        <span class="skill-tag">Draw.io</span>
+        <span class="skill-tag">AIRPM</span>
+        <span class="skill-tag">Canva</span>
+        <span class="skill-tag">Microsoft Office</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-card-title">Soft Skills</div>
+      <div class="skill-tags">
+        <span class="skill-tag">Quick Learner</span>
+        <span class="skill-tag">Attention to Detail</span>
+        <span class="skill-tag">Time Management</span>
+        <span class="skill-tag">Team Collaboration</span>
+        <span class="skill-tag">Communication</span>
+        <span class="skill-tag">Leadership</span>
+        <span class="skill-tag">Public Relations</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CERTIFICATIONS -->
+<section class="section-wrap reveal" style="padding-top:0;">
+  <div class="section-label">Certifications</div>
+  <h2 class="section-title">BNSP <em>Certified</em></h2>
+  <div class="cert-grid">
+    <div class="cert-card">
+      <div class="cert-badge">🎨</div>
+      <div class="cert-name">Junior Graphic Designer</div>
+      <div class="cert-issuer">BNSP — Badan Nasional Sertifikasi Profesi</div>
+      <div class="cert-issuer" style="margin-top:4px;">No. 74100 2166 22814 2023</div>
+      <div class="cert-year">Valid 3 Years · April 2023</div>
+    </div>
+    <div class="cert-card">
+      <div class="cert-badge">📊</div>
+      <div class="cert-name">Business Intelligence Analyst</div>
+      <div class="cert-issuer">BNSP — Sistem Manajemen Data & Kecerdasan Buatan</div>
+      <div class="cert-issuer" style="margin-top:4px;">No. 62015 2120 6 0000503 2025</div>
+      <div class="cert-year">Valid 3 Years · October 2025</div>
+    </div>
+    <div class="cert-card">
+      <div class="cert-badge">🏫</div>
+      <div class="cert-name">Lab Assistant Certificate</div>
+      <div class="cert-issuer">Universitas Bakrie — FTIK</div>
+      <div class="cert-issuer" style="margin-top:4px;">No. 023/FTIK-UB/SER/II/2025</div>
+      <div class="cert-year">Pengantar Teknologi Informasi · 2024/2025</div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects" class="reveal">
+  <div class="section-wrap" style="padding-bottom:0;">
+    <div class="section-label">Portfolio</div>
+    <h2 class="section-title">Projects & <em>Work</em></h2>
+    <div class="project-tabs">
+      <button class="tab-btn active" onclick="switchTab('team')">🤝 Project Team</button>
+      <button class="tab-btn" onclick="switchTab('individual')">👤 Project Individual</button>
+    </div>
+    <div id="tab-team" class="tab-panel active">
+      <div class="project-card">
+        <div class="project-icon">🏪</div>
+        <div class="project-name">E-Commerce System Analysis</div>
+        <div class="project-desc">System analysis and design for e-commerce platform using UML diagrams, ER diagrams, and BPMN workflow mapping as a team project.</div>
+        <div class="project-tech">
+          <span class="tech-badge">UML</span><span class="tech-badge">BPMN</span><span class="tech-badge">Draw.io</span><span class="tech-badge">Bizagi</span>
+        </div>
+      </div>
+      <div class="project-card">
+        <div class="project-icon">📊</div>
+        <div class="project-name">Business Intelligence Dashboard</div>
+        <div class="project-desc">Collaborative BI project with interactive dashboards for data-driven decision making, covering KPI tracking and performance analytics.</div>
+        <div class="project-tech">
+          <span class="tech-badge">Power BI</span><span class="tech-badge">Tableau</span><span class="tech-badge">MySQL</span>
+        </div>
+      </div>
+      <div class="project-card">
+        <div class="project-icon">🗺️</div>
+        <div class="project-name">GIS Mapping Project</div>
+        <div class="project-desc">Geographic Information System project mapping spatial data with QGIS, including data analysis and visualization layers for regional study.</div>
+        <div class="project-tech">
+          <span class="tech-badge">QGIS</span><span class="tech-badge">GIS</span><span class="tech-badge">Spatial Analysis</span>
+        </div>
+      </div>
+      <div class="project-card">
+        <div class="project-icon">📱</div>
+        <div class="project-name">Mobile App UI/UX Design</div>
+        <div class="project-desc">UI/UX design project for a mobile application prototype with user research, wireframing, and high-fidelity mockups.</div>
+        <div class="project-tech">
+          <span class="tech-badge">Figma</span><span class="tech-badge">UI/UX</span><span class="tech-badge">Prototyping</span>
+        </div>
+      </div>
+    </div>
+    <div id="tab-individual" class="tab-panel">
+      <div class="project-card">
+        <div class="project-icon">🖥️</div>
+        <div class="project-name">Desktop Application — VB.Net</div>
+        <div class="project-desc">Desktop software application developed in VB.Net with MySQL database integration for data management and reporting features.</div>
+        <div class="project-tech">
+          <span class="tech-badge">VB.Net</span><span class="tech-badge">MySQL</span><span class="tech-badge">Visual Studio</span>
+        </div>
+      </div>
+      <div class="project-card">
+        <div class="project-icon">📰</div>
+        <div class="project-name">SEO Content Portfolio</div>
+        <div class="project-desc">Published 1000+ optimized articles during internship, applying keyword research and content structuring techniques for improved search performance.</div>
+        <div class="project-tech">
+          <span class="tech-badge">SEO</span><span class="tech-badge">Content Writing</span><span class="tech-badge">WordPress</span>
+        </div>
+      </div>
+      <div class="project-card">
+        <div class="project-icon">🎨</div>
+        <div class="project-name">Visual Identity — HMSI</div>
+        <div class="project-desc">Created social media visual content, posters, and banners for HMSI and Senat Mahasiswa. Developed creative concepts for Open House 2024.</div>
+        <div class="project-tech">
+          <span class="tech-badge">CorelDraw</span><span class="tech-badge">Canva</span><span class="tech-badge">Instagram</span>
+        </div>
+      </div>
+      <div class="project-card">
+        <div class="project-icon">📋</div>
+        <div class="project-name">Quality Assurance Documentation</div>
+        <div class="project-desc">Edited 20+ Manual Standards and supported integration of quality documents into institutional systems at Universitas Bakrie's quality assurance directorate.</div>
+        <div class="project-tech">
+          <span class="tech-badge">Document Mgmt</span><span class="tech-badge">Quality Assurance</span><span class="tech-badge">E-Monitoring</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ORGANIZATION -->
+<section class="section-wrap reveal">
+  <div class="section-label">Organization</div>
+  <h2 class="section-title">Campus <em>Activities</em></h2>
+  <div class="org-grid">
+    <div class="org-card">
+      <div class="org-role">Staff — Media & Creative</div>
+      <div class="org-name">Senat Mahasiswa, Universitas Bakrie</div>
+      <div class="org-period">2025 — Present · Komisi V Hubungan Masyarakat</div>
+    </div>
+    <div class="org-card">
+      <div class="org-role">Secretary — Hubungan Masyarakat</div>
+      <div class="org-name">HMSI Universitas Bakrie</div>
+      <div class="org-period">2024/2025 · Himpunan Mahasiswa Sistem Informasi</div>
+    </div>
+    <div class="org-card">
+      <div class="org-role">Secretary</div>
+      <div class="org-name">SIF Award — HMSI</div>
+      <div class="org-period">May 2025 · Event Committee</div>
+    </div>
+    <div class="org-card">
+      <div class="org-role">Creative Division Lead</div>
+      <div class="org-name">Leadership Regeneration — HMSI</div>
+      <div class="org-period">May 2025 · Led creative team for regeneration event</div>
+    </div>
+    <div class="org-card">
+      <div class="org-role">Event Division</div>
+      <div class="org-name">Generator — HMSI</div>
+      <div class="org-period">April 2025 · Event planning & coordination</div>
+    </div>
+    <div class="org-card">
+      <div class="org-role">Creative Division</div>
+      <div class="org-name">Open House — HMSI</div>
+      <div class="org-period">September 2024 · Social media content creation</div>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section id="gallery" class="reveal">
+  <div class="section-wrap">
+    <div class="section-label">Gallery</div>
+    <h2 class="section-title">Photo <em>Gallery</em></h2>
+    <div class="gallery-note">
+      <p>Gallery will display photos from projects, events, certifications, and campus activities.<br>Add your photos to personalize this section.</p>
+      <div class="gallery-placeholder-grid">
+        <div class="gallery-ph">🎓<span>Graduation</span></div>
+        <div class="gallery-ph">🏆<span>Certificates</span></div>
+        <div class="gallery-ph">💼<span>Internship</span></div>
+        <div class="gallery-ph">🎨<span>Design Work</span></div>
+        <div class="gallery-ph">👥<span>Team Projects</span></div>
+        <div class="gallery-ph">📊<span>Presentations</span></div>
+        <div class="gallery-ph">🎪<span>Events</span></div>
+        <div class="gallery-ph">📸<span>Campus Life</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="reveal">
+  <div class="section-wrap">
+    <div class="section-label">Contact</div>
+    <h2 class="section-title">Let's <em>Connect</em></h2>
+    <div class="contact-grid">
+      <div class="contact-info">
+        <h3>Open to <em>opportunities</em><br>& collaborations</h3>
+        <div class="contact-list">
+          <a class="contact-item" href="mailto:najmakhonsa@gmail.com">
+            <div class="contact-icon">✉️</div>
+            <div>
+              <div class="contact-label">Email</div>
+              <div class="contact-val">najmakhonsa@gmail.com</div>
+            </div>
+          </a>
+          <a class="contact-item" href="tel:+6289537941677">
+            <div class="contact-icon">📱</div>
+            <div>
+              <div class="contact-label">Phone / WhatsApp</div>
+              <div class="contact-val">+62 895 3794 16677</div>
+            </div>
+          </a>
+          <a class="contact-item" href="https://linkedin.com/in/najma-khonsa-tsabita" target="_blank">
+            <div class="contact-icon">💼</div>
+            <div>
+              <div class="contact-label">LinkedIn</div>
+              <div class="contact-val">linkedin.com/najma-khonsa-tsabita</div>
+            </div>
+          </a>
+          <div class="contact-item">
+            <div class="contact-icon">📍</div>
+            <div>
+              <div class="contact-label">Location</div>
+              <div class="contact-val">South Tangerang, Banten, Indonesia</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="contact-form-card">
+        <h4>Send a Message</h4>
+        <div class="form-group">
+          <label>Your Name</label>
+          <input type="text" placeholder="e.g. Budi Santoso">
+        </div>
+        <div class="form-group">
+          <label>Email Address</label>
+          <input type="email" placeholder="your@email.com">
+        </div>
+        <div class="form-group">
+          <label>Subject</label>
+          <input type="text" placeholder="Project Collaboration / Internship / etc.">
+        </div>
+        <div class="form-group">
+          <label>Message</label>
+          <textarea placeholder="Hi Najma, I'd like to discuss..."></textarea>
+        </div>
+        <button class="btn-submit" onclick="handleFormSubmit()">Send Message →</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Najma Khonsa <em>Tsabita</em></div>
+  <div class="footer-copy">© 2025 · Information Systems · Universitas Bakrie</div>
+  <div style="font-family:'Space Mono',monospace; font-size:0.68rem; color:var(--muted);">GPA 3.85 · S.I. 2023</div>
+</footer>
+
+<script>
+  // Custom cursor
+  const cursor = document.getElementById('cursor');
+  const trail = document.getElementById('cursorTrail');
+  let tx = 0, ty = 0, cx = 0, cy = 0;
+
+  document.addEventListener('mousemove', e => {
+    cx = e.clientX; cy = e.clientY;
+    cursor.style.left = cx + 'px';
+    cursor.style.top = cy + 'px';
+  });
+
+  function animateTrail() {
+    tx += (cx - tx) * 0.12;
+    ty += (cy - ty) * 0.12;
+    trail.style.left = tx + 'px';
+    trail.style.top = ty + 'px';
+    requestAnimationFrame(animateTrail);
+  }
+  animateTrail();
+
+  document.querySelectorAll('a, button, .skill-tag, .project-card, .org-card, .cert-card').forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      cursor.style.transform = 'translate(-50%, -50%) scale(2)';
+      trail.style.transform = 'translate(-50%, -50%) scale(1.5)';
+      trail.style.borderColor = 'rgba(184,169,255,0.7)';
+    });
+    el.addEventListener('mouseleave', () => {
+      cursor.style.transform = 'translate(-50%, -50%) scale(1)';
+      trail.style.transform = 'translate(-50%, -50%) scale(1)';
+      trail.style.borderColor = 'rgba(184,169,255,0.4)';
+    });
+  });
+
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.08 });
+  reveals.forEach(r => observer.observe(r));
+
+  // Project tabs
+  function switchTab(tab) {
+    document.querySelectorAll('.tab-btn').forEach((b, i) => {
+      b.classList.toggle('active', (i === 0 && tab === 'team') || (i === 1 && tab === 'individual'));
+    });
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    document.getElementById('tab-' + tab).classList.add('active');
+  }
+
+  // Navbar scroll
+  window.addEventListener('scroll', () => {
+    const nav = document.getElementById('navbar');
+    nav.style.background = window.scrollY > 40
+      ? 'rgba(10,12,16,0.85)'
+      : 'rgba(10,12,16,0.6)';
+  });
+
+  // Form handler
+  function handleFormSubmit() {
+    const btn = document.querySelector('.btn-submit');
+    btn.textContent = '✓ Message Sent!';
+    btn.style.background = 'linear-gradient(135deg, var(--accent3), var(--accent))';
+    setTimeout(() => {
+      btn.textContent = 'Send Message →';
+      btn.style.background = '';
+    }, 3000);
+  }
+
+  // Mobile menu
+  function toggleMobileMenu() {
+    const links = document.querySelector('.nav-links');
+    if (links.style.display === 'flex') {
+      links.style.display = 'none';
+    } else {
+      links.style.cssText = 'display:flex;flex-direction:column;position:absolute;top:70px;left:0;right:0;background:rgba(10,12,16,0.95);backdrop-filter:blur(24px);padding:20px 24px;border-bottom:1px solid var(--border);gap:4px;z-index:99;';
+    }
+  }
+</script>
+</body>
+</html>
